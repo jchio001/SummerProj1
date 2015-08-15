@@ -1,9 +1,20 @@
 package jonathanchiou.educate;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,13 +22,78 @@ import android.view.MenuItem;
 import android.view.View;
 import android.app.DownloadManager.Request;
 import android.app.DownloadManager;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
+
+    private static final String DUPED_BOOL = "Duped";
+    private static final String DOWNLOAD_TAG = "dl_Id";
+    private static final String FIRST_TIME_TAG = "not_first_time";
+    private static final int DupeDL = 10;
+    long dl_Id = 0;
+    boolean not_first_time = false;
+    DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        not_first_time = sp.getBoolean(FIRST_TIME_TAG, false);
+        if (!not_first_time) {
+            not_first_time = true;
+            sp.edit().putBoolean(FIRST_TIME_TAG, not_first_time).apply();
+            startActivity(new Intent(MainActivity.this, Help.class));
+        }
+        manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        not_first_time = sp.getBoolean(FIRST_TIME_TAG, false);
+
+        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        registerReceiver(myReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(FIRST_TIME_TAG, not_first_time).apply();
+        unregisterReceiver(myReceiver);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(FIRST_TIME_TAG, not_first_time).apply();
+        //unregisterReceiver(myReceiver);
+    }
+
+    private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            download_Status(dl_Id, manager, getApplicationContext());
+        }
+    };
+
+    static public void download_Status(long dl_Id, DownloadManager manager, Context context) {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(dl_Id);
+        Cursor cursor = manager.query(query);
+        if(cursor.moveToFirst()){
+            int columnIndex = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+            int status = cursor.getInt(columnIndex);
+            MainActivity.check_Status(status, context);
+        }
     }
 
     @Override
@@ -27,43 +103,70 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    static public boolean resetDL(Context context) {
+        Toast.makeText(context, "Resetting haveDLd to false.", Toast.LENGTH_LONG).show();
+        return false;
+    }
+
+    static public boolean isConnected(ConnectivityManager cm) {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
+    }
+
+    static public boolean isWifiConnected(ConnectivityManager cm) {
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI);
+    }
+
     @Override
+    //setting button
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, Settings.class));
+                return true;
+            case R.id.action_help:
+                startActivity(new Intent(MainActivity.this, Help.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    //works
-    //Why it didn't work initally; No permissions set. Permissions are improtant.
-    public void doDownloading(View V) {
-        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Equations_With_Variables.pdf";
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        //Create a string that contains a link to the file, then turn it into a request
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        //Establish what do we allow the user to DL the file on
-        request.setTitle("Equations With Variables");
-        request.setDescription("LE TOUCAN HAS ARRIVED");
-        //set description
-        // in order for this if to run, you must use the android 3.2 to compile your app
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        }
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Algebra1_Equations_With_Variables.pdf");
-
-        // get download service and enqueue file
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-
+    static public boolean onResume_helper(SharedPreferences sp, String SP_tag) {
+        boolean haveDLd = sp.getBoolean(SP_tag, false);
+        return haveDLd;
     }
+
+    public void to_havingtrouble(View v) {
+        startActivity(new Intent(MainActivity.this, havingtrouble.class));
+    }
+
+    static public void check_Status(int status, Context context) {
+        switch(status) {
+            case DownloadManager.STATUS_FAILED:
+                Toast.makeText(context, "Download failed.", Toast.LENGTH_LONG).show();
+                return;
+            case DownloadManager.STATUS_PAUSED:
+                Toast.makeText(context, "Download paused", Toast.LENGTH_LONG).show();
+                return;
+            case DownloadManager.STATUS_SUCCESSFUL:
+                Toast.makeText(context, "Download sucessful.", Toast.LENGTH_LONG).show();
+                return;
+            default:
+                Toast.makeText(context, "Failed for unknown reasons.", Toast.LENGTH_LONG).show();
+                return;
+        }
+    }
+
+    public void to_lessons(View v) {
+        Button button = (Button) v;
+        String buttonText = (String) button.getText();
+        if (buttonText.matches("Algebra1"))
+            startActivity(new Intent(MainActivity.this, Algebra_1.class));
+        else
+            Toast.makeText(getApplicationContext(), "Unavailable for now.", Toast.LENGTH_LONG).show();
+    }
+
 
 }

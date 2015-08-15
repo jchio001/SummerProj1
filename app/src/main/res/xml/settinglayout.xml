@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="Settings"
+    android:summary="Settings"
+    android:title="Settings">
+    <PreferenceCategory
+        android:title="Reset Options">
+
+        <CheckBoxPreference
+            android:key="checkBoxA"
+            android:title="Reset Algebra1 info"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="checkBoxB"
+            android:title="Reset Algebra2 info"
+            android:defaultValue="false"/>
+
+        <CheckBoxPreference
+            android:key="checkBoxC"
+            android:title="Reset Precalc info"
+            android:defaultValue="false"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Download Options">
+
+        <CheckBoxPreference
+            android:key="checkBoxD"
+            android:title="WiFi only"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>
