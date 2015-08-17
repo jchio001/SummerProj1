@@ -7,30 +7,51 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends ActionBarActivity {
+
+    private static final String[] alg1 = {"Variables", "PEMDAS", "Equations with Variables", "Balancing Equations",
+            "System of Equations"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Map<String,String> map = new Hashtable<String, String>();
-        map.put("Test", "This worked");
-        String result = "Nope";
         super.onCreate(savedInstanceState);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
+        String query = intent.getStringExtra(SearchManager.QUERY);
+        List<String> list = new ArrayList<String>();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            String str = map.get(query);
-            if (str != null)
-                result = "result: " + str;
+            if (query != null) {
+                int i = 0;
+                for (i = 0; i < alg1.length; ++i)
+                    if (alg1[i].toLowerCase().contains(query.toLowerCase()))
+                        list.add(alg1[i]);
+            }
         }
-        TextView text = new TextView(this);
-        text.setText(result);
-        setContentView(text);
+
+        if (list.isEmpty()) {
+            setContentView(R.layout.activity_search);
+            //findViewById searches the current view for the item. if it DNE, then it returns null => CRASHES
+            TextView noResults = (TextView) findViewById(R.id.AStextView);
+            noResults.setText("No items found containing: " + query + ".");
+            return;
+        }
+
+        ArrayAdapter<String> ListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
+        ListView myLV = new ListView(this);
+        myLV.setAdapter(ListAdapter);
+        setContentView(myLV);
     }
 
     @Override
@@ -42,16 +63,12 @@ public class SearchActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }
