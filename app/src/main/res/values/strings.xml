@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Educate</string>
+    <string name="hinttxt">Not case sensitive.</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -25,4 +26,6 @@
     <string name="title_activity_havingtrouble">Getting Answers</string>
     <string name="title_activity_help">Help</string>
     <string name="title_activity_algebra_1__system__of__equations">System Of Equations</string>
+    <string name="title_activity_algebra_1__balancing__equations">Balancing Equations</string>
+    <string name="title_activity_search">Search Results</string>
 </resources>

@@ -10,4 +10,9 @@
         android:title="@string/action_Help"
         android:orderInCategory="200" app:showAsAction="never" />
 
+    <item android:id="@+id/search"
+        android:title="Search"
+        android:orderInCategory="300"
+        app:showAsAction="never" />
+
 </menu>

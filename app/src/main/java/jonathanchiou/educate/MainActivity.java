@@ -2,6 +2,7 @@ package jonathanchiou.educate;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +18,9 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.app.DownloadManager.Request;
@@ -99,7 +102,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -127,6 +131,9 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             case R.id.action_help:
                 startActivity(new Intent(MainActivity.this, Help.class));
+                return true;
+            case R.id.search:
+                onSearchRequested();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

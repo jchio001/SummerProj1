@@ -197,6 +197,8 @@ public class Algebra_1 extends ActionBarActivity {
             startActivity(new Intent(Algebra_1.this, Algebra_1_PEMDAS.class));
         else if (buttonText.matches("Equations With Variables"))
             startActivity(new Intent(Algebra_1.this, Algebra_1_Equation_With_Variables.class));
+        else if (buttonText.matches("Balancing Equations"))
+            startActivity(new Intent(Algebra_1.this, Algebra_1_Balancing_Equations.class));
         else if (buttonText.matches("System of Equations"))
             startActivity(new Intent(Algebra_1.this, Algebra_1_System_Of_Equations.class));
     }

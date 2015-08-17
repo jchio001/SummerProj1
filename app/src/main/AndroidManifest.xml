@@ -11,12 +11,14 @@
         android:icon="@drawable/eltucan"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="android.app.default_searchable"
+            android:value=".SearchActivity" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -51,6 +53,19 @@
         <activity
             android:name=".Algebra_1_System_Of_Equations"
             android:label="@string/title_activity_algebra_1__system__of__equations" >
+        </activity>
+        <activity
+            android:name=".Algebra_1_Balancing_Equations"
+            android:label="@string/title_activity_algebra_1__balancing__equations" >
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="@string/title_activity_search" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
     </application>
 
