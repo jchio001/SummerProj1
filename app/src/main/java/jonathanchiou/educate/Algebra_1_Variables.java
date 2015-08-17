@@ -117,41 +117,21 @@ public class Algebra_1_Variables extends ActionBarActivity {
         if (wifi_Only) {
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (!MainActivity.isWifiConnected(cm)) {
-                Toast.makeText(getApplicationContext(), "Error: No connection to WiFi.", Toast.LENGTH_LONG).show();
+            if (!MainActivity.check_connection(cm, haveDLd, getApplicationContext(), "WiFi"))
                 return;
-            }
-            else {
+            else
                 haveDLd = true;
-                Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
-            }
         }
         else {
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (!MainActivity.isConnected(cm)) {
-                Toast.makeText(getApplicationContext(), "Error: No connection to anything.", Toast.LENGTH_LONG).show();
+            if (!MainActivity.check_connection(cm, haveDLd, getApplicationContext(), "Not_WiFi"))
                 return;
-            }
-            else {
+            else
                 haveDLd = true;
-                Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
-            }
         }
-        //Establish what do we allow the user to DL the file on
-        request.setTitle("Variables");
-        request.setDescription("EL TUCAN HA LLEGADO");
-        //set description
-        // in order for this if to run, you must use the android 3.2 to compile your app
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        }
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Algebra1_Equations_With_Variables.pdf");
-
-        // get download service and enqueue file
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        dl_Id = manager.enqueue(request);
+        manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        dl_Id = MainActivity.download_file(manager, request, "Variables");
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {

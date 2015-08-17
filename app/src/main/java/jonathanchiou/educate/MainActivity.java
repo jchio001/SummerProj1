@@ -28,6 +28,7 @@ import android.app.DownloadManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+//I put all my shared functionality here
 public class MainActivity extends ActionBarActivity {
 
     private static final String DUPED_BOOL = "Duped";
@@ -165,6 +166,45 @@ public class MainActivity extends ActionBarActivity {
                 return;
         }
     }
+
+    static public boolean check_connection(ConnectivityManager cm, boolean haveDLd, Context context, String connectionType) {
+        boolean isConnected = false;
+        if (connectionType.equals("WiFi"))
+            isConnected = isWifiConnected(cm);
+        else
+            isConnected = isConnected(cm);
+
+        if (!isConnected) {
+            if (connectionType.equals("WiFi"))
+                Toast.makeText(context, "Error: No connection to WiFi.", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(context, "Error: No connection to anything.", Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+        else
+            Toast.makeText(context, "Downloading file....", Toast.LENGTH_LONG).show();
+
+        return true;
+    }
+
+
+    public static long download_file(DownloadManager manager, DownloadManager.Request request, String file_name) {
+        //Establish what do we allow the user to DL the file on
+        request.setTitle(file_name);
+        request.setDescription("EL TUCAN HA LLEGADO");
+        //set description
+        // in order for this if to run, you must use the android 3.2 to compile your app
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        }
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Algebra1_" + file_name + ".pdf");
+
+        // get download service and enqueue file
+        return manager.enqueue(request);
+    }
+
 
     public void to_lessons(View v) {
         Button button = (Button) v;
