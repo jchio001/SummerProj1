@@ -11,8 +11,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
 
 public class Help extends ActionBarActivity {
 
@@ -24,6 +22,7 @@ public class Help extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
 
@@ -61,6 +60,12 @@ public class Help extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

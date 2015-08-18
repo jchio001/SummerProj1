@@ -9,19 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 
 public class Algebra_1_PEMDAS extends ActionBarActivity {
 
@@ -37,6 +32,7 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_algebra_1__pemdas);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
@@ -157,6 +153,12 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+                finish();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(Algebra_1_PEMDAS.this, Settings.class));
                 return true;

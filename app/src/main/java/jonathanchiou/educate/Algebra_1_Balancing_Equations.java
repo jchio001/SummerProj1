@@ -11,16 +11,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 
 public class Algebra_1_Balancing_Equations extends ActionBarActivity {
 
@@ -43,6 +39,7 @@ public class Algebra_1_Balancing_Equations extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_algebra_1__balancing__equations);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
@@ -97,7 +94,6 @@ public class Algebra_1_Balancing_Equations extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download this file again?");
                 builder.setCancelable(true);
-                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
@@ -114,13 +110,11 @@ public class Algebra_1_Balancing_Equations extends ActionBarActivity {
 
     private final class CancelOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            //MainActivity.this.finish(); THIS KILLS THE APP
             return;
         }
     }
 
-    //works
-    //Why it didn't work initally; No permissions set. Permissions are improtant.
+    //Why it didn't work initially; No permissions set. Permissions are important.
     public void doDownloading() {
         String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Balancing_Equations.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -155,6 +149,13 @@ public class Algebra_1_Balancing_Equations extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                //google says don't bank on onFinish() calling onDestroy() for storing data
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+                finish();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(Algebra_1_Balancing_Equations.this, Settings.class));
                 return true;

@@ -9,24 +9,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
-
 
 public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
 
-    //for individual activities, I don't need to keep track of everything in an array
-    //when I want to reset information on all activies in a category, THEN I use an array
     private static final String DUPED_BOOL = "Duped_EWV";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final int DupeDL = 10;
@@ -39,6 +32,7 @@ public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_algebra_1__equation__with__variables);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
@@ -64,12 +58,10 @@ public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        //unregisterReceiver(myReceiver);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_algebra_1__equation__with__variables, menu);
         return true;
     }
@@ -90,7 +82,6 @@ public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download this file again?");
                 builder.setCancelable(true);
-                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
@@ -107,7 +98,6 @@ public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
 
     private final class CancelOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            //MainActivity.this.finish(); THIS KILLS THE APP
             return;
         }
     }
@@ -158,6 +148,12 @@ public class Algebra_1_Equation_With_Variables extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+                finish();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(Algebra_1_Equation_With_Variables.this, Settings.class));
                 return true;

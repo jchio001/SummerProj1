@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -37,6 +36,7 @@ public class Algebra_1 extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_algebra_1);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
@@ -81,6 +81,14 @@ public class Algebra_1 extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case android.R.id.home:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id);
+                finish();
+                return true;
+            case R.id.search:
+                onSearchRequested();
+                return true;
             case R.id.action_settings:
                 //Toast.makeText(getApplicationContext(), "I clicked this!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(Algebra_1.this, Settings.class));

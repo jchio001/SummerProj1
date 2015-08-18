@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -22,12 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-
 public class havingtrouble extends ActionBarActivity {
 
-    //Implement the connection checks for this activity
-    //More lessons
-    //Idiot-proofing
     private static final String DUPED_BOOL = "Duped_Vars";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final int DupeDL = 10;
@@ -40,6 +35,7 @@ public class havingtrouble extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_havingtrouble);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
@@ -64,7 +60,6 @@ public class havingtrouble extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        //unregisterReceiver(myReceiver);
     }
 
     @Override
@@ -177,6 +172,9 @@ public class havingtrouble extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(havingtrouble.this, Settings.class));
                 return true;

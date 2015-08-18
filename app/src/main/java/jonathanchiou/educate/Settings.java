@@ -1,33 +1,20 @@
 package jonathanchiou.educate;
 
 import android.app.DownloadManager;
-import android.app.FragmentManager;
-import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.CheckBoxPreference;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.zip.CheckedInputStream;
 
 public class Settings extends ActionBarActivity {
 
@@ -43,7 +30,7 @@ public class Settings extends ActionBarActivity {
     long dl_Id = 0;
     DownloadManager manager;
     //arrays for resetting all information on DL'd files
-    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_SOQ"};
+    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_BE", "Duped_SOQ"};
     //private static final String[] ALG2_SETTINGS_ARRAY = new String[0];
     //private static final String[] PRECALC_SETTINGS_ARRAY = new String[0];
     private static final String[] SUBJECTS = {"Reset download data on Alg1", "Reset download data on Alg2", "Reset download data on Precalc"};
@@ -73,7 +60,7 @@ public class Settings extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
         //PUT ALL RELEVANT CODE AFTER THE ABOVE 2 LINES OR ELSE EVERYTHING BREAKS!!!
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -135,12 +122,14 @@ public class Settings extends ActionBarActivity {
     };
 
     @Override
+    //handles selecting things on the action bar.
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
