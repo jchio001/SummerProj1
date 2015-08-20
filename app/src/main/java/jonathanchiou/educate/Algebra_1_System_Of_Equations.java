@@ -67,7 +67,6 @@ public class Algebra_1_System_Of_Equations extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        //unregisterReceiver(myReceiver);
     }
 
     public void onClick_SOQ(View v) {

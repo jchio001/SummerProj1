@@ -21,7 +21,7 @@ import java.util.Map;
 public class SearchActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     private static final String[] alg1 = {"Getting Answers", "Variables", "PEMDAS", "Equations with Variables", "Balancing Equations",
-            "System of Equations"};
+            "Linear Equations and Word Problems", "System of Equations"};
     Map<String, Class> activity_map;
 
     @Override
@@ -34,7 +34,7 @@ public class SearchActivity extends ActionBarActivity implements AdapterView.OnI
         Intent intent = getIntent();
         String query = intent.getStringExtra(SearchManager.QUERY);
         List<String> list = new ArrayList<String>();
-        //searching and populating arraylist
+        //searching and populating arraylist with results
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             if (query != null) {
                 int i = 0;
@@ -75,6 +75,7 @@ public class SearchActivity extends ActionBarActivity implements AdapterView.OnI
         activity_map.put("Equations with Variables",  Algebra_1_Equation_With_Variables.class);
         activity_map.put("Balancing Equations", Algebra_1_Balancing_Equations.class);
         activity_map.put("System of Equations", Algebra_1_System_Of_Equations.class);
+        activity_map.put("Linear Equations and Word Problems", Algebra_1_LEAWP.class);
         activity_map.put("Getting Answers", havingtrouble.class);
     }
 

@@ -18,20 +18,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class Algebra_1_PEMDAS extends ActionBarActivity {
 
-    private static final String DUPED_BOOL = "Duped_PEMDAS";
+public class Algebra_1_LEAWP extends ActionBarActivity {
+
+    private static final String DUPED_BOOL = "Duped_LEAWP";
     private static final String DOWNLOAD_TAG = "dl_Id";
+    private static final int DupeDL = 10;
     boolean wifi_Only = false;
     boolean haveDLd = false;
-    private static final int DupeDL = 10;
     long dl_Id = 0;
     DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_algebra_1__pemdas);
+        setContentView(R.layout.activity_algebra_1__leawp);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
@@ -53,29 +54,27 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        unregisterReceiver(myReceiver);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        //unregisterReceiver(myReceiver);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_algebra_1__pemda, menu);
-        return true;
-    }
-
-    public void onClick_PEMDAS(View v) {
-        if (haveDLd) {
+    public void onClick_LEAWP(View v) {
+        if (haveDLd)
             showDialog(DupeDL);
-        }
-        else {
+        else
             doDownloading();
-        }
-
     }
 
     //displays a dialog for repeat downloads
@@ -84,8 +83,6 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
             case DupeDL:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download this file again?");
-                builder.setCancelable(true);
-                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
@@ -102,15 +99,13 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
 
     private final class CancelOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            //MainActivity.this.finish(); THIS KILLS THE APP
             return;
         }
     }
 
     //works
-    //Why it didn't work initally; No permissions set. Permissions are improtant.
     public void doDownloading() {
-        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_PEMDAS.pdf";
+        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Linear_Equations_and_Word_Problems.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         //Create a string that contains a link to the file, then turn it into a request
         if (wifi_Only) {
@@ -131,7 +126,7 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
         }
         //Establish what do we allow the user to DL the file on
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        dl_Id = MainActivity.download_file(manager, request, "PEMDAS");
+        dl_Id = MainActivity.download_file(manager, request, "Linear_Equations_and_Word_Problems");
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -142,12 +137,10 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
     };
 
     @Override
-    public void onPause() {
-        super.onPause();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
-        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        unregisterReceiver(myReceiver);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_algebra_1__leaw, menu);
+        return true;
     }
 
     @Override
@@ -160,10 +153,10 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
                 finish();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(Algebra_1_PEMDAS.this, Settings.class));
+                startActivity(new Intent(Algebra_1_LEAWP.this, Settings.class));
                 return true;
             case R.id.action_help:
-                startActivity(new Intent(Algebra_1_PEMDAS.this, Help.class));
+                startActivity(new Intent(Algebra_1_LEAWP.this, Help.class));
                 return true;
             case R.id.action_resetDL:
                 haveDLd = MainActivity.resetDL(getApplicationContext());

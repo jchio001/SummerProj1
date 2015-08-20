@@ -24,10 +24,8 @@ import android.widget.Toast;
 //I put all my shared functionality here
 public class MainActivity extends ActionBarActivity {
 
-    private static final String DUPED_BOOL = "Duped";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final String FIRST_TIME_TAG = "not_first_time";
-    private static final int DupeDL = 10;
     long dl_Id = 0;
     boolean not_first_time = false;
     DownloadManager manager;
@@ -186,14 +184,12 @@ public class MainActivity extends ActionBarActivity {
         //Establish what do we allow the user to DL the file on
         request.setTitle(file_name);
         request.setDescription("EL TUCAN HA LLEGADO");
-        //set description
-        // in order for this if to run, you must use the android 3.2 to compile your app
+        //set description. In order for this if to run, you must use the android 3.2 to compile your app
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         }
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Algebra1_" + file_name + ".pdf");
-
         // get download service and enqueue file
         return manager.enqueue(request);
     }

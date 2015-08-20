@@ -23,14 +23,11 @@ public class Settings extends ActionBarActivity {
     private static CheckBoxPreference cb2;
     private static CheckBoxPreference cb3;
     private static CheckBoxPreference cb4;
-    boolean resetAlg1 = false;
-    boolean resetAlg2 = false;
-    boolean resetPrecalc = false;
     private static final String DOWNLOAD_TAG = "dl_Id";
     long dl_Id = 0;
     DownloadManager manager;
     //arrays for resetting all information on DL'd files
-    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_BE", "Duped_SOQ"};
+    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_BE", "Duped_LEAWP", "Duped_SOQ"};
     //private static final String[] ALG2_SETTINGS_ARRAY = new String[0];
     //private static final String[] PRECALC_SETTINGS_ARRAY = new String[0];
     private static final String[] SUBJECTS = {"Reset download data on Alg1", "Reset download data on Alg2", "Reset download data on Precalc"};
@@ -79,15 +76,14 @@ public class Settings extends ActionBarActivity {
 
     @Override
     public void onDestroy() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         if (cb1.isChecked()) {
             Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
-            do_resetting(ALG1_SETTINGS_ARRAY);
+            do_resetting(sp, ALG1_SETTINGS_ARRAY);
         }
-        super.onDestroy();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id);
         sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
-        //unregisterReceiver(myReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -106,8 +102,7 @@ public class Settings extends ActionBarActivity {
         unregisterReceiver(myReceiver);
     }
 
-    public void do_resetting(String[] SETTINGS_ARRAY) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+    public void do_resetting(SharedPreferences sp, String[] SETTINGS_ARRAY) {
         int i = 0;
         for (i = 0; i < SETTINGS_ARRAY.length; ++i) {
             sp.edit().putBoolean(SETTINGS_ARRAY[i], false).apply();
@@ -122,7 +117,6 @@ public class Settings extends ActionBarActivity {
     };
 
     @Override
-    //handles selecting things on the action bar.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
