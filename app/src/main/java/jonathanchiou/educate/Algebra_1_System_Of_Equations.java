@@ -25,6 +25,7 @@ public class Algebra_1_System_Of_Equations extends ActionBarActivity {
     private static final int DupeDL = 10;
     boolean wifi_Only = false;
     boolean haveDLd = false;
+    boolean afterCreate = false;
     long dl_Id = 0;
     DownloadManager manager;
 
@@ -37,27 +38,30 @@ public class Algebra_1_System_Of_Equations extends ActionBarActivity {
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        afterCreate = true;
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
     @Override
     public void onResume() {
-        super.onResume();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        haveDLd = MainActivity.onResume_helper(sp, DUPED_BOOL);
-        wifi_Only = sp.getBoolean("WIFI_ONLY", false);
-        dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
-
+        if (!afterCreate) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            haveDLd = sp.getBoolean(DUPED_BOOL, false);
+            wifi_Only = sp.getBoolean("WIFI_ONLY", false);
+            dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        }
         IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(myReceiver, intentFilter);
+        afterCreate = false;
+        super.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         unregisterReceiver(myReceiver);
     }
 

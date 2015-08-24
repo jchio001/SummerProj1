@@ -25,6 +25,7 @@ public class Algebra_1_Variables extends ActionBarActivity {
     private static final int DupeDL = 10;
     boolean wifi_Only = false;
     boolean haveDLd = false;
+    boolean afterCreate = false;
     long dl_Id = 0;
     DownloadManager manager;
 
@@ -37,19 +38,22 @@ public class Algebra_1_Variables extends ActionBarActivity {
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        afterCreate = true;
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
     @Override
     public void onResume() {
-        super.onResume();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        haveDLd = MainActivity.onResume_helper(sp, DUPED_BOOL);
-        dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
-        wifi_Only = sp.getBoolean("WIFI_ONLY", false);
-
+        if (!afterCreate) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            haveDLd = sp.getBoolean(DUPED_BOOL, false);
+            wifi_Only = sp.getBoolean("WIFI_ONLY", false);
+            dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        }
         IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(myReceiver, intentFilter);
+        afterCreate = false;
+        super.onResume();
     }
 
     @Override
@@ -58,7 +62,6 @@ public class Algebra_1_Variables extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        //unregisterReceiver(myReceiver);
     }
 
     @Override
@@ -72,10 +75,8 @@ public class Algebra_1_Variables extends ActionBarActivity {
         if (haveDLd) {
             showDialog(DupeDL);
         }
-        else {
-            //Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
+        else
             doDownloading();
-        }
 
     }
 
@@ -142,8 +143,8 @@ public class Algebra_1_Variables extends ActionBarActivity {
     public void onPause() {
         super.onPause();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
         unregisterReceiver(myReceiver);
     }
 

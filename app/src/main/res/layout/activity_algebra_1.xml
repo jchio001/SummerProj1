@@ -24,13 +24,6 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Equations With Variables"
-                android:id="@+id/Alg1_EWV"
-                android:onClick="to_Lessons"/>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/Alg1_V"
                 android:layout_alignParentStart="true"
                 android:text="Variables"
@@ -47,6 +40,13 @@
                 android:text="PEMDAS"
                 android:layout_below="@+id/Alg1_V"
                 android:layout_alignParentLeft="true" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Equations With Variables"
+                android:id="@+id/Alg1_EWV"
+                android:onClick="to_Lessons"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -107,5 +107,27 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Helpful Links"
+        android:id="@+id/textView14"
+        android:layout_below="@+id/scrollView7"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:clickable="true"
+        android:src="@drawable/khanacademy"
+        android:id="@+id/imageView5"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/textView14"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onClick_Open_Link" />
 
 </RelativeLayout>

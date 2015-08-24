@@ -70,7 +70,6 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
         sp.edit().putBoolean(FIRST_TIME_TAG, not_first_time).apply();
-        //unregisterReceiver(myReceiver);
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -130,11 +129,6 @@ public class MainActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    static public boolean onResume_helper(SharedPreferences sp, String SP_tag) {
-        boolean haveDLd = sp.getBoolean(SP_tag, false);
-        return haveDLd;
     }
 
     public void to_havingtrouble(View v) {

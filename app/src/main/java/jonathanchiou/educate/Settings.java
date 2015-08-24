@@ -11,6 +11,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -31,7 +32,6 @@ public class Settings extends ActionBarActivity {
     //private static final String[] ALG2_SETTINGS_ARRAY = new String[0];
     //private static final String[] PRECALC_SETTINGS_ARRAY = new String[0];
     private static final String[] SUBJECTS = {"Reset download data on Alg1", "Reset download data on Alg2", "Reset download data on Precalc"};
-    private ListView lv;
 
     //creating SettingsFragment class inside of the Settings Class because they both exist together
     //it also allows me an easier time to access elements within the fragment if I can access it
@@ -77,11 +77,7 @@ public class Settings extends ActionBarActivity {
     @Override
     public void onDestroy() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        if (cb1.isChecked()) {
-            Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
-            do_resetting(sp, ALG1_SETTINGS_ARRAY);
-        }
-        sp.edit().putLong(DOWNLOAD_TAG, dl_Id);
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
         sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
         super.onDestroy();
     }
@@ -117,9 +113,38 @@ public class Settings extends ActionBarActivity {
     };
 
     @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            if (cb1.isChecked()) {
+                Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
+                do_resetting(sp, ALG1_SETTINGS_ARRAY);
+            }
+
+            sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+            sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
+            finish();
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                if (cb1.isChecked()) {
+                    Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
+                    do_resetting(sp, ALG1_SETTINGS_ARRAY);
+                    sp.edit().putBoolean("RESET", true).apply();
+                }
+                else
+                    sp.edit().putBoolean("RESET", false).apply();
+
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+                sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
                 finish();
                 return true;
             default:

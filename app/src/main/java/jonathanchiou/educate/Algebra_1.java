@@ -26,7 +26,9 @@ import android.widget.Toast;
 public class Algebra_1 extends ActionBarActivity {
 
     private static final int DL_All = 5;
-    private static final String[] ALG1_NAME_ARRAY = {"Variables", "PEMDAS", "Equations_With_Variables"};
+    private static final int OPEN_BROWSER = 6;
+    private static final String[] ALG1_NAME_ARRAY = {"Variables", "PEMDAS", "Equations_With_Variables", "Balancing_Equations",
+    "Linear_Equations_and_Word_Problems", "System_of_Equations"};
     private static final String DOWNLOAD_TAG = "dl_Id";
     boolean wifi_Only = false;
     long dl_Id = 0;
@@ -105,18 +107,37 @@ public class Algebra_1 extends ActionBarActivity {
     }
 
     protected Dialog onCreateDialog(int id) {
+        AlertDialog.Builder builder;
         switch (id) {
             case DL_All:
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download all Algebra1 files?");
                 builder.setCancelable(true);
-                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                AlertDialog dialogA = builder.create();
+                dialogA.show();
+                return super.onCreateDialog(id);
+            case OPEN_BROWSER:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to leave the app and open the external link?");
+                builder.setCancelable(true);
+                builder.setPositiveButton("Yes", new BrowserListener());
+                builder.setNegativeButton("No", new CancelOnClickListener());
+                AlertDialog dialogB = builder.create();
+                dialogB.show();
+                return super.onCreateDialog(id);
         }
         return super.onCreateDialog(id);
+    }
+
+    private final class BrowserListener implements DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+            String url = "https://www.khanacademy.org/math/algebra";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
     }
 
     private final class OkOnClickListener implements DialogInterface.OnClickListener {
@@ -184,6 +205,10 @@ public class Algebra_1 extends ActionBarActivity {
         IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(myReceiver, intentFilter);
         Toast.makeText(getApplicationContext(), "Done downloading all Algebra1 lessons.", Toast.LENGTH_LONG).show();
+    }
+
+    public void onClick_Open_Link(View v) {
+        showDialog(OPEN_BROWSER);
     }
 
     @Override

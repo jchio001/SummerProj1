@@ -47,7 +47,7 @@ public class havingtrouble extends ActionBarActivity {
     public void onResume() {
         super.onResume();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        haveDLd = MainActivity.onResume_helper(sp, DUPED_BOOL);
+        haveDLd = sp.getBoolean(DUPED_BOOL, false);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
 
