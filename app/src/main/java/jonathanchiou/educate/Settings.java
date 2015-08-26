@@ -9,15 +9,14 @@ import android.content.SharedPreferences;
 import android.preference.CheckBoxPreference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 import android.widget.Toast;
 
-public class Settings extends ActionBarActivity {
+public class Settings extends AppCompatActivity {
 
     private static final String SETTING_CHECK_BOX1 = "WIFI_ONLY";
     private static CheckBoxPreference cb1;
@@ -28,7 +27,8 @@ public class Settings extends ActionBarActivity {
     long dl_Id = 0;
     DownloadManager manager;
     //arrays for resetting all information on DL'd files
-    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_BE", "Duped_LEAWP", "Duped_SOQ"};
+    private static final String[] ALG1_SETTINGS_ARRAY = {"Duped_Vars", "Duped_PEMDAS", "Duped_EWV", "Duped_BE",
+            "Duped_EWZOIS", "Duped_LEAWP", "Duped_SOQ", "Duped_Inequalities"};
     //private static final String[] ALG2_SETTINGS_ARRAY = new String[0];
     //private static final String[] PRECALC_SETTINGS_ARRAY = new String[0];
     private static final String[] SUBJECTS = {"Reset download data on Alg1", "Reset download data on Alg2", "Reset download data on Precalc"};
@@ -59,7 +59,6 @@ public class Settings extends ActionBarActivity {
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
-        //PUT ALL RELEVANT CODE AFTER THE ABOVE 2 LINES OR ELSE EVERYTHING BREAKS!!!
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -112,18 +111,21 @@ public class Settings extends ActionBarActivity {
         }
     };
 
+    public void finish_Settings() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        if (cb1.isChecked()) {
+            Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
+            do_resetting(sp, ALG1_SETTINGS_ARRAY);
+        }
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
+        finish();
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-            if (cb1.isChecked()) {
-                Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
-                do_resetting(sp, ALG1_SETTINGS_ARRAY);
-            }
-
-            sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-            sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
-            finish();
+            finish_Settings();
             return true;
         }
 
@@ -134,18 +136,7 @@ public class Settings extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-                if (cb1.isChecked()) {
-                    Toast.makeText(getApplicationContext(), "Resetting data on Algebra1....", Toast.LENGTH_LONG).show();
-                    do_resetting(sp, ALG1_SETTINGS_ARRAY);
-                    sp.edit().putBoolean("RESET", true).apply();
-                }
-                else
-                    sp.edit().putBoolean("RESET", false).apply();
-
-                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-                sp.edit().putBoolean(SETTING_CHECK_BOX1, cb4.isChecked()).apply();
-                finish();
+                finish_Settings();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

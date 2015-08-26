@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="jonathanchiou.educate.Algebra1_Lessons.Algebra_1_PEMDAS">
+    tools:context="jonathanchiou.educate.Algebra1_Lessons.Algebra_1_EWZOIS">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
 

@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Algebra1_Lessons;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,17 +12,19 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import jonathanchiou.educate.Help;
+import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.R;
+import jonathanchiou.educate.Settings;
 
+public class Algebra_1_Inequalities extends AppCompatActivity {
 
-public class Algebra_1_LEAWP extends ActionBarActivity {
-
-    private static final String DUPED_BOOL = "Duped_LEAWP";
+    private static final String DUPED_BOOL = "Duped_Inequalities";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final int DupeDL = 10;
     boolean wifi_Only = false;
@@ -34,7 +36,7 @@ public class Algebra_1_LEAWP extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_algebra_1__leawp);
+        setContentView(R.layout.activity_algebra1__inequalities);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
@@ -75,7 +77,7 @@ public class Algebra_1_LEAWP extends ActionBarActivity {
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
     }
 
-    public void onClick_LEAWP(View v) {
+    public void onClick_Ineq(View v) {
         if (haveDLd)
             showDialog(DupeDL);
         else
@@ -110,7 +112,7 @@ public class Algebra_1_LEAWP extends ActionBarActivity {
 
     //works
     public void doDownloading() {
-        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Linear_Equations_and_Word_Problems.pdf";
+        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Inequalities.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         //Create a string that contains a link to the file, then turn it into a request
         if (wifi_Only) {
@@ -131,7 +133,7 @@ public class Algebra_1_LEAWP extends ActionBarActivity {
         }
         //Establish what do we allow the user to DL the file on
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        dl_Id = MainActivity.download_file(manager, request, "Linear_Equations_and_Word_Problems");
+        dl_Id = MainActivity.download_file(manager, request, "Algebra1_Inequalities");
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -158,10 +160,10 @@ public class Algebra_1_LEAWP extends ActionBarActivity {
                 finish();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(Algebra_1_LEAWP.this, Settings.class));
+                startActivity(new Intent(Algebra_1_Inequalities.this, Settings.class));
                 return true;
             case R.id.action_help:
-                startActivity(new Intent(Algebra_1_LEAWP.this, Help.class));
+                startActivity(new Intent(Algebra_1_Inequalities.this, Help.class));
                 return true;
             case R.id.action_resetDL:
                 haveDLd = MainActivity.resetDL(getApplicationContext());

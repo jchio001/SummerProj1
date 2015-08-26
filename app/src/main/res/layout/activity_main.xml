@@ -32,17 +32,77 @@
         android:id="@+id/button3"
         android:onClick="to_lessons"
         android:layout_below="@+id/button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Need help with finding answers?"
         android:id="@+id/button12"
+        android:onClick="to_havingtrouble"
+        android:layout_below="@+id/textView15"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Topics"
+        android:id="@+id/textView15"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="to_havingtrouble" />
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Useful Links"
+        android:id="@+id/textView16"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView9"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView16"
+        android:layout_alignParentLeft="true">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:id="@+id/mainKA"
+                android:layout_below="@+id/textView16"
+                android:scaleType="fitXY"
+                android:src="@drawable/khanacademy"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:nestedScrollingEnabled="false"
+                android:onClick="main_onClick" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:id="@+id/mainWA"
+                android:layout_below="@+id/imageView6"
+                android:scaleType="fitXY"
+                android:src="@drawable/wolframalpha"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:onClick="main_onClick" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

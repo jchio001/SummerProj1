@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class Help extends ActionBarActivity {
+public class Help extends AppCompatActivity {
 
     private static final String DOWNLOAD_TAG = "dl_Id";
     long dl_Id = 0;

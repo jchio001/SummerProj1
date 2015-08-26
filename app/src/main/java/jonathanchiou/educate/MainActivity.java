@@ -1,18 +1,22 @@
 package jonathanchiou.educate;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,14 +24,17 @@ import android.view.View;
 import android.app.DownloadManager;
 import android.widget.Button;
 import android.widget.Toast;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1;
 
 //I put all my shared functionality here
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final String FIRST_TIME_TAG = "not_first_time";
+    private static final int OPEN_BROWSER = 11;
     long dl_Id = 0;
     boolean not_first_time = false;
+    String url;
     DownloadManager manager;
 
     @Override
@@ -98,6 +105,36 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+    protected Dialog onCreateDialog(int id) {
+        AlertDialog.Builder builder;
+        switch (id) {
+            case OPEN_BROWSER:
+                builder = new AlertDialog.Builder(this);
+                builder.setMessage("Are you sure you want to leave the app and open the external link?");
+                builder.setCancelable(true);
+                builder.setPositiveButton("Yes", new BrowserListener());
+                builder.setNegativeButton("No", new CancelOnClickListener());
+                AlertDialog dialogB = builder.create();
+                dialogB.show();
+                return super.onCreateDialog(id);
+        }
+        return super.onCreateDialog(id);
+    }
+
+    private final class BrowserListener implements DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
+    }
+
+    public final class CancelOnClickListener implements DialogInterface.OnClickListener {
+        public void onClick(DialogInterface dialog, int which) {
+            return;
+        }
+    }
+
     static public boolean resetDL(Context context) {
         Toast.makeText(context, "Resetting haveDLd to false.", Toast.LENGTH_LONG).show();
         return false;
@@ -114,7 +151,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    //setting button
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
@@ -153,7 +189,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     static public boolean check_connection(ConnectivityManager cm, boolean haveDLd, Context context, String connectionType) {
-        boolean isConnected = false;
+        boolean isConnected;
         if (connectionType.equals("WiFi"))
             isConnected = isWifiConnected(cm);
         else
@@ -183,7 +219,7 @@ public class MainActivity extends ActionBarActivity {
             request.allowScanningByMediaScanner();
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         }
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "Algebra1_" + file_name + ".pdf");
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, file_name + ".pdf");
         // get download service and enqueue file
         return manager.enqueue(request);
     }
@@ -198,5 +234,13 @@ public class MainActivity extends ActionBarActivity {
             Toast.makeText(getApplicationContext(), "Unavailable for now.", Toast.LENGTH_LONG).show();
     }
 
+    public void main_onClick(View v) {
+        int id = v.getId();
+        if (id == R.id.mainKA)
+            url = "https://www.khanacademy.org/";
+        else
+            url = "http://www.wolframalpha.com/";
+        showDialog(OPEN_BROWSER);
+    }
 
 }

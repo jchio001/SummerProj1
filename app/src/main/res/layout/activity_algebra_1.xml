@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="jonathanchiou.educate.Algebra_1">
+    tools:context="jonathanchiou.educate.Algebra1_Lessons.Algebra_1">
 
     <ScrollView
         android:layout_width="wrap_content"
@@ -25,7 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Alg1_V"
-                android:layout_alignParentStart="true"
                 android:text="Variables"
                 android:onClick="to_Lessons"
                 android:layout_below="@+id/Alg1_EWV"
@@ -53,48 +52,48 @@
                 android:layout_height="wrap_content"
                 android:text="Balancing Equations"
                 android:id="@+id/Alg1_BE"
-                android:layout_alignParentStart="true"
                 android:onClick="to_Lessons"
-                android:layout_below="@+id/Alg1_PEMDAS"
                 android:layout_alignParentLeft="true" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Equations with Zero or Infinite Solutions"
+                android:id="@+id/Alg1_EWZOIS"
+                android:onClick="to_Lessons"/>
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Linear Equations and Word Problems"
                 android:id="@+id/Alg1_LEaWP"
-                android:layout_alignParentStart="true"
-                android:onClick="to_Lessons"
-                android:nestedScrollingEnabled="false"
-                android:layout_below="@+id/Alg1_BE"
-                android:layout_alignParentLeft="true" />
+                android:onClick="to_Lessons" />
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/Alg1_SoE"
-                android:layout_alignParentStart="true"
                 android:text="System of Equations"
-                android:onClick="to_Lessons"
-                android:layout_below="@+id/Alg1_SoE"
-                android:layout_alignParentLeft="true" />
+                android:onClick="to_Lessons" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Inequalities"
+                android:id="@+id/Alg1_Inequalities"
+                android:onClick="to_Lessons" />
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Placeholder1"
-                android:id="@+id/button9"
-                android:layout_below="@+id/button7"
-                android:layout_alignParentLeft="true" />
+                android:id="@+id/button9" />
 
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Placeholder2"
-                android:id="@+id/button10"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/button9"
-                android:layout_alignParentLeft="true" />
+                android:id="@+id/button10" />
         </LinearLayout>
     </ScrollView>
 

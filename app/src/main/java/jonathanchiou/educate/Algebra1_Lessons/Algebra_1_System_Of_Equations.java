@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Algebra1_Lessons;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,15 +12,19 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import jonathanchiou.educate.Help;
+import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.R;
+import jonathanchiou.educate.Settings;
 
-public class Algebra_1_Variables extends ActionBarActivity {
+public class Algebra_1_System_Of_Equations extends AppCompatActivity {
 
-    private static final String DUPED_BOOL = "Duped_Vars";
+    private static final String DUPED_BOOL = "Duped_SOQ";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final int DupeDL = 10;
     boolean wifi_Only = false;
@@ -32,7 +36,7 @@ public class Algebra_1_Variables extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_algebra_1__variables);
+        setContentView(R.layout.activity_algebra_1__system__of__equations);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
@@ -57,6 +61,15 @@ public class Algebra_1_Variables extends ActionBarActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+        unregisterReceiver(myReceiver);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -64,19 +77,14 @@ public class Algebra_1_Variables extends ActionBarActivity {
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_algebra_1__variables, menu);
-        return true;
-    }
-
-    public void onClick_Vars(View v) {
+    public void onClick_SOQ(View v) {
         if (haveDLd) {
             showDialog(DupeDL);
         }
-        else
+        else {
+            //Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
             doDownloading();
+        }
 
     }
 
@@ -86,6 +94,7 @@ public class Algebra_1_Variables extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download this file again?");
                 builder.setCancelable(true);
+                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
@@ -107,11 +116,12 @@ public class Algebra_1_Variables extends ActionBarActivity {
         }
     }
 
+    //works
+    //Why it didn't work initally; No permissions set. Permissions are improtant.
     public void doDownloading() {
-        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Variables.pdf";
+        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_System_of_Equations.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         //Create a string that contains a link to the file, then turn it into a request
-        //Checking connection before downloading.
         if (wifi_Only) {
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -129,7 +139,7 @@ public class Algebra_1_Variables extends ActionBarActivity {
                 haveDLd = true;
         }
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        dl_Id = MainActivity.download_file(manager, request, "Variables");
+        dl_Id = MainActivity.download_file(manager,request, "Algebra1_System_Of_Equations");
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
@@ -139,13 +149,11 @@ public class Algebra_1_Variables extends ActionBarActivity {
         }
     };
 
+
     @Override
-    public void onPause() {
-        super.onPause();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
-        unregisterReceiver(myReceiver);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_algebra_1__system__of__equations, menu);
+        return true;
     }
 
     @Override
@@ -158,10 +166,10 @@ public class Algebra_1_Variables extends ActionBarActivity {
                 finish();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(Algebra_1_Variables.this, Settings.class));
+                startActivity(new Intent(Algebra_1_System_Of_Equations.this, Settings.class));
                 return true;
             case R.id.action_help:
-                startActivity(new Intent(Algebra_1_Variables.this, Help.class));
+                startActivity(new Intent(Algebra_1_System_Of_Equations.this, Help.class));
                 return true;
             case R.id.action_resetDL:
                 haveDLd = MainActivity.resetDL(getApplicationContext());

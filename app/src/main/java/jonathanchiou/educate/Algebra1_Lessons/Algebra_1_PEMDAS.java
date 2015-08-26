@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Algebra1_Lessons;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,13 +12,17 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import jonathanchiou.educate.Help;
+import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.R;
+import jonathanchiou.educate.Settings;
 
-public class Algebra_1_PEMDAS extends ActionBarActivity {
+public class Algebra_1_PEMDAS extends AppCompatActivity {
 
     private static final String DUPED_BOOL = "Duped_PEMDAS";
     private static final String DOWNLOAD_TAG = "dl_Id";
@@ -88,7 +92,6 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Are you sure you want to download this file again?");
                 builder.setCancelable(true);
-                //not working atm
                 builder.setPositiveButton("Yes", new OkOnClickListener());
                 builder.setNegativeButton("No", new CancelOnClickListener());
                 AlertDialog dialog = builder.create();
@@ -134,7 +137,7 @@ public class Algebra_1_PEMDAS extends ActionBarActivity {
         }
         //Establish what do we allow the user to DL the file on
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        dl_Id = MainActivity.download_file(manager, request, "PEMDAS");
+        dl_Id = MainActivity.download_file(manager, request, "Algebra1_PEMDAS");
     }
 
     private final BroadcastReceiver myReceiver = new BroadcastReceiver() {

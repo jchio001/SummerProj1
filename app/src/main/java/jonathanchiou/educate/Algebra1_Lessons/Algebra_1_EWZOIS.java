@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Algebra1_Lessons;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,47 +12,71 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import jonathanchiou.educate.Help;
+import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.R;
+import jonathanchiou.educate.Settings;
 
-public class havingtrouble extends AppCompatActivity {
+public class Algebra_1_EWZOIS extends ActionBarActivity {
 
-    private static final String DUPED_BOOL = "Duped_Vars";
+    private static final String DUPED_BOOL = "Duped_EWZOIS";
     private static final String DOWNLOAD_TAG = "dl_Id";
     private static final int DupeDL = 10;
     boolean wifi_Only = false;
     boolean haveDLd = false;
+    boolean afterCreate = false;
     long dl_Id = 0;
     DownloadManager manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_havingtrouble);
+        setContentView(R.layout.activity_algebra_1__ewzois);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         haveDLd = sp.getBoolean(DUPED_BOOL, false);
         wifi_Only = sp.getBoolean("WIFI_ONLY", false);
         dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        afterCreate = true;
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
     }
 
+    private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            MainActivity.download_Status(dl_Id, manager, getApplicationContext());
+        }
+    };
+
     @Override
     public void onResume() {
-        super.onResume();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        haveDLd = sp.getBoolean(DUPED_BOOL, false);
-        dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
-        wifi_Only = sp.getBoolean("WIFI_ONLY", false);
-
+        if (!afterCreate) {
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+            haveDLd = sp.getBoolean(DUPED_BOOL, false);
+            wifi_Only = sp.getBoolean("WIFI_ONLY", false);
+            dl_Id = sp.getLong(DOWNLOAD_TAG, 0);
+        }
         IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(myReceiver, intentFilter);
+        afterCreate = false;
+        super.onResume();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
+        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+        unregisterReceiver(myReceiver);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -60,21 +84,11 @@ public class havingtrouble extends AppCompatActivity {
         sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_havingtrouble, menu);
-        return true;
-    }
-
-    public void onClick_Help(View v) {
-        if (haveDLd) {
+    public void onClick_EWZOIS(View v) {
+        if (haveDLd)
             showDialog(DupeDL);
-        }
-        else {
-            haveDLd = true;
+        else
             doDownloading();
-        }
 
     }
 
@@ -95,7 +109,6 @@ public class havingtrouble extends AppCompatActivity {
 
     private final class OkOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
             doDownloading();
         }
     }
@@ -107,69 +120,56 @@ public class havingtrouble extends AppCompatActivity {
         }
     }
 
+    //works
+    //Why it didn't work initally; No permissions set. Permissions are improtant.
     public void doDownloading() {
-        String url = "https://github.com/jchio001/EducateFiles/raw/master/havingtrouble.pdf";
+        String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Equations_with_Zero_or_Infinite_Solutions.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
         //Create a string that contains a link to the file, then turn it into a request
         if (wifi_Only) {
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (!MainActivity.isWifiConnected(cm)) {
-                Toast.makeText(getApplicationContext(), "Error: No connection to Wifi.", Toast.LENGTH_LONG).show();
+            if (!MainActivity.check_connection(cm, haveDLd, getApplicationContext(), "WiFi"))
                 return;
-            }
-            else {
+            else
                 haveDLd = true;
-                Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
-            }
         }
         else {
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
             ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-            if (!MainActivity.isConnected(cm)) {
-                Toast.makeText(getApplicationContext(), "Error: No connection to anything.", Toast.LENGTH_LONG).show();
+            if (!MainActivity.check_connection(cm, haveDLd, getApplicationContext(), "Not_WiFi"))
                 return;
-            }
-            else {
+            else
                 haveDLd = true;
-                Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
-            }
         }
-        dl_Id = MainActivity.download_file(manager, request, "havingtrouble.");
+        manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+        dl_Id = MainActivity.download_file(manager,request, "Algebra1_Equations_with_Zero_or_Infinite_Solutions");
     }
 
-    private final BroadcastReceiver myReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            MainActivity.download_Status(dl_Id, manager, getApplicationContext());
-        }
-    };
-
-    public void onPause() {
-        super.onPause();
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
-        sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
-        unregisterReceiver(myReceiver);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_algebra_1__ewzoi, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
         switch (item.getItemId()) {
             case android.R.id.home:
+                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+                sp.edit().putBoolean(DUPED_BOOL, haveDLd).apply();
+                sp.edit().putLong(DOWNLOAD_TAG, dl_Id).apply();
                 finish();
                 return true;
             case R.id.action_settings:
-                startActivity(new Intent(havingtrouble.this, Settings.class));
+                startActivity(new Intent(Algebra_1_EWZOIS.this, Settings.class));
                 return true;
             case R.id.action_help:
-                startActivity(new Intent(havingtrouble.this, Help.class));
+                startActivity(new Intent(Algebra_1_EWZOIS.this, Help.class));
                 return true;
             case R.id.action_resetDL:
-                Context context = getApplicationContext();
-                haveDLd = MainActivity.resetDL(context);
-                return true;
+                haveDLd = MainActivity.resetDL(getApplicationContext());
             default:
                 return super.onOptionsItemSelected(item);
         }

@@ -2,8 +2,8 @@ package jonathanchiou.educate;
 
 import android.app.SearchManager;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,16 +12,23 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_Balancing_Equations;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_EWZOIS;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_Equation_With_Variables;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_Inequalities;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_LEAWP;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_PEMDAS;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_System_Of_Equations;
+import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_Variables;
 
-public class SearchActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String[] alg1 = {"Getting Answers", "Variables", "PEMDAS", "Equations with Variables", "Balancing Equations",
-            "Linear Equations and Word Problems", "System of Equations"};
+            "Equations with Zero or Infinite Solutions", "Linear Equations and Word Problems", "System of Equations", "Inequalities"};
     Map<String, Class> activity_map;
 
     @Override
@@ -74,8 +81,10 @@ public class SearchActivity extends ActionBarActivity implements AdapterView.OnI
         activity_map.put("PEMDAS", Algebra_1_PEMDAS.class);
         activity_map.put("Equations with Variables",  Algebra_1_Equation_With_Variables.class);
         activity_map.put("Balancing Equations", Algebra_1_Balancing_Equations.class);
+        activity_map.put("Equations with Zero or Infinite Solutions", Algebra_1_EWZOIS.class);
         activity_map.put("System of Equations", Algebra_1_System_Of_Equations.class);
         activity_map.put("Linear Equations and Word Problems", Algebra_1_LEAWP.class);
+        activity_map.put("Inequalities", Algebra_1_Inequalities.class);
         activity_map.put("Getting Answers", havingtrouble.class);
     }
 

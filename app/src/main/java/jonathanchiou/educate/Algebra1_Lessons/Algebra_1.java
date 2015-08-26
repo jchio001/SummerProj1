@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Algebra1_Lessons;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,21 +14,24 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import jonathanchiou.educate.Help;
+import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.R;
+import jonathanchiou.educate.Settings;
 
-
-public class Algebra_1 extends ActionBarActivity {
+public class Algebra_1 extends AppCompatActivity {
 
     private static final int DL_All = 5;
     private static final int OPEN_BROWSER = 6;
     private static final String[] ALG1_NAME_ARRAY = {"Variables", "PEMDAS", "Equations_With_Variables", "Balancing_Equations",
-    "Linear_Equations_and_Word_Problems", "System_of_Equations"};
+    "Equations_with_Zero_or_Infinite_Answers", "Linear_Equations_and_Word_Problems", "System_of_Equations", "Inequalities"};
     private static final String DOWNLOAD_TAG = "dl_Id";
     boolean wifi_Only = false;
     long dl_Id = 0;
@@ -147,7 +150,7 @@ public class Algebra_1 extends ActionBarActivity {
         }
     }
 
-    private final class CancelOnClickListener implements DialogInterface.OnClickListener {
+    public final class CancelOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
             //MainActivity.this.finish(); THIS KILLS THE APP
             return;
@@ -232,10 +235,14 @@ public class Algebra_1 extends ActionBarActivity {
             startActivity(new Intent(Algebra_1.this, Algebra_1_Equation_With_Variables.class));
         else if (buttonText.matches("Balancing Equations"))
             startActivity(new Intent(Algebra_1.this, Algebra_1_Balancing_Equations.class));
+        else if (buttonText.matches("Equations with Zero or Infinite Solutions"))
+            startActivity(new Intent(Algebra_1.this, Algebra_1_EWZOIS.class));
         else if (buttonText.matches("Linear Equations and Word Problems"))
             startActivity(new Intent(Algebra_1.this, Algebra_1_LEAWP.class));
         else if (buttonText.matches("System of Equations"))
             startActivity(new Intent(Algebra_1.this, Algebra_1_System_Of_Equations.class));
+        else if (buttonText.matches("Inequalities"))
+            startActivity(new Intent(Algebra_1.this, Algebra_1_Inequalities.class));
     }
 
 }
