@@ -68,14 +68,10 @@ public class havingtrouble extends AppCompatActivity {
     }
 
     public void onClick_Help(View v) {
-        if (haveDLd) {
+        if (haveDLd)
             showDialog(DupeDL);
-        }
-        else {
-            haveDLd = true;
+        else
             doDownloading();
-        }
-
     }
 
     protected Dialog onCreateDialog(int id) {

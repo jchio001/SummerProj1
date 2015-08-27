@@ -110,8 +110,6 @@ public class Algebra_1_Equation_With_Variables extends AppCompatActivity {
         }
     }
 
-    //works
-    //Why it didn't work initally; No permissions set. Permissions are improtant.
     public void doDownloading() {
         String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_Equations_With_Variables.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));

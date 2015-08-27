@@ -35,10 +35,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/Alg1_PEMDAS"
                 android:onClick="to_Lessons"
-                android:layout_alignParentStart="true"
-                android:text="PEMDAS"
-                android:layout_below="@+id/Alg1_V"
-                android:layout_alignParentLeft="true" />
+                android:text="PEMDAS" />
 
             <Button
                 android:layout_width="match_parent"

@@ -27,13 +27,60 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alg1_inequalities"
-                android:id="@+id/textView18" />
+                android:id="@+id/alg1_ineq1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                android:id="@+id/numline1"
+                android:src="@drawable/numberline1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alg1_inequalities1"
+                android:id="@+id/alg1_ineq2" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                android:id="@+id/numline2"
+                android:src="@drawable/numberline2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alg1_inequalities2"
+                android:id="@+id/alg1_ineq3" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                android:id="@+id/numline3"
+                android:src="@drawable/numberline3" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/alg1_inequalities3"
+                android:id="@+id/alg1_ineq4" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:scaleType="fitXY"
+                android:id="@+id/numline4"
+                android:src="@drawable/numberline4" />
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
