@@ -2,6 +2,7 @@ package jonathanchiou.educate;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +26,7 @@ import android.app.DownloadManager;
 import android.widget.Button;
 import android.widget.Toast;
 import jonathanchiou.educate.Algebra1_Lessons.Algebra_1;
+import jonathanchiou.educate.Classes.LessonMapper;
 
 //I put all my shared functionality here
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
             sp.edit().putBoolean(FIRST_TIME_TAG, not_first_time).apply();
             startActivity(new Intent(MainActivity.this, Help.class));
         }
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Loading lessons list...");
+        progress.setCancelable(false);
+        progress.setCanceledOnTouchOutside(false);
+        progress.show();
+        LessonMapper.getInstance().setUpMap();
+        progress.dismiss();
         manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
     }
 

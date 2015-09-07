@@ -19,10 +19,7 @@ import android.widget.Toast;
 public class Settings extends AppCompatActivity {
 
     private static final String SETTING_CHECK_BOX1 = "WIFI_ONLY";
-    private static CheckBoxPreference cb1;
-    private static CheckBoxPreference cb2;
-    private static CheckBoxPreference cb3;
-    private static CheckBoxPreference cb4;
+    private static CheckBoxPreference cb1, cb4;
     private static final String DOWNLOAD_TAG = "dl_Id";
     long dl_Id = 0;
     DownloadManager manager;
@@ -44,10 +41,6 @@ public class Settings extends AppCompatActivity {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
             cb1 = (CheckBoxPreference) findPreference("checkBoxA");
             cb1.setChecked(false);
-            cb2 = (CheckBoxPreference) findPreference("checkBoxB");
-            cb2.setChecked(false);
-            cb3 = (CheckBoxPreference) findPreference("checkBoxC");
-            cb3.setChecked(false);
             cb4 = (CheckBoxPreference) findPreference("checkBoxD");
             cb4.setChecked(sp.getBoolean(SETTING_CHECK_BOX1, false));
         }
