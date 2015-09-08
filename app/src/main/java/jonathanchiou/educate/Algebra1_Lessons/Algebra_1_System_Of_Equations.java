@@ -17,10 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import jonathanchiou.educate.Help;
-import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.Activities.Help;
+import jonathanchiou.educate.Activities.MainActivity;
 import jonathanchiou.educate.R;
-import jonathanchiou.educate.Settings;
+import jonathanchiou.educate.Activities.Settings;
 
 public class Algebra_1_System_Of_Equations extends AppCompatActivity {
 
@@ -78,13 +78,10 @@ public class Algebra_1_System_Of_Equations extends AppCompatActivity {
     }
 
     public void onClick_SOQ(View v) {
-        if (haveDLd) {
+        if (haveDLd)
             showDialog(DupeDL);
-        }
-        else {
-            //Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
+        else
             doDownloading();
-        }
 
     }
 
@@ -116,8 +113,6 @@ public class Algebra_1_System_Of_Equations extends AppCompatActivity {
         }
     }
 
-    //works
-    //Why it didn't work initally; No permissions set. Permissions are improtant.
     public void doDownloading() {
         String url = "https://github.com/jchio001/EducateFiles/raw/master/Algebra1_System_of_Equations.pdf";
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));

@@ -40,7 +40,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Equations With Variables"
+                android:text="Equations with Variables"
                 android:id="@+id/Alg1_EWV"
                 android:onClick="to_Lessons"/>
 

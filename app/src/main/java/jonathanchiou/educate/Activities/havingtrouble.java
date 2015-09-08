@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import jonathanchiou.educate.R;
 
 public class havingtrouble extends AppCompatActivity {
 

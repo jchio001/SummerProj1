@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Activities;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -15,6 +15,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import jonathanchiou.educate.R;
 
 public class Settings extends AppCompatActivity {
 

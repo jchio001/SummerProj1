@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Activities;
 
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import jonathanchiou.educate.R;
 
 public class Help extends AppCompatActivity {
 

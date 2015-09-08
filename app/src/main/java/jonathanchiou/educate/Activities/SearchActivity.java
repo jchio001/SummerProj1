@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Activities;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -16,7 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jonathanchiou.educate.Classes.LessonMapper;
+import jonathanchiou.educate.R;
 
+//How this class works:
+//Find what lesson names contain my query => store into an arraylist => display it as a listview
+//=> set on click for the listview to ensure that pressing on a result opens a lesson
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private static final String[] alg1 = {"Getting Answers", "Variables", "PEMDAS", "Equations with Variables", "Balancing Equations",

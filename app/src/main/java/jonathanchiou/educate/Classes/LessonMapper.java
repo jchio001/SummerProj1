@@ -11,11 +11,9 @@ import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_LEAWP;
 import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_PEMDAS;
 import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_System_Of_Equations;
 import jonathanchiou.educate.Algebra1_Lessons.Algebra_1_Variables;
-import jonathanchiou.educate.havingtrouble;
+import jonathanchiou.educate.Activities.havingtrouble;
 
-/**
- * Created by jman0_000 on 9/7/2015.
- */
+//Simple hash-table wrapper I made to access lessons. Made a singleton since it only needs to created once.
 public class LessonMapper {
 
     private static LessonMapper instance = null;

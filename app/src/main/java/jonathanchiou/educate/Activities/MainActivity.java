@@ -1,4 +1,4 @@
-package jonathanchiou.educate;
+package jonathanchiou.educate.Activities;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.Toast;
 import jonathanchiou.educate.Algebra1_Lessons.Algebra_1;
 import jonathanchiou.educate.Classes.LessonMapper;
+import jonathanchiou.educate.R;
 
 //I put all my shared functionality here
 public class MainActivity extends AppCompatActivity {

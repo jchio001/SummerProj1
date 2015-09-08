@@ -17,10 +17,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import jonathanchiou.educate.Help;
-import jonathanchiou.educate.MainActivity;
+import jonathanchiou.educate.Activities.Help;
+import jonathanchiou.educate.Activities.MainActivity;
 import jonathanchiou.educate.R;
-import jonathanchiou.educate.Settings;
+import jonathanchiou.educate.Activities.Settings;
 
 public class Algebra_1_Equation_With_Variables extends AppCompatActivity {
 

@@ -21,21 +21,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import jonathanchiou.educate.Help;
-import jonathanchiou.educate.MainActivity;
+
+import jonathanchiou.educate.Classes.LessonMapper;
+import jonathanchiou.educate.Activities.Help;
+import jonathanchiou.educate.Activities.MainActivity;
 import jonathanchiou.educate.R;
-import jonathanchiou.educate.Settings;
+import jonathanchiou.educate.Activities.Settings;
 
 public class Algebra_1 extends AppCompatActivity {
 
     private static final int DL_All = 5;
     private static final int OPEN_BROWSER = 6;
+    boolean wifi_Only = false;
+    long dl_Id = 0;
+
     private static final String[] ALG1_NAME_ARRAY = {"Variables", "PEMDAS", "Equations_With_Variables", "Balancing_Equations",
     "Equations_with_Zero_or_Infinite_Answers", "Linear_Equations_and_Word_Problems", "System_of_Equations", "Inequalities"};
     private static final String DOWNLOAD_TAG = "dl_Id";
-    boolean wifi_Only = false;
-    long dl_Id = 0;
+
     DownloadManager manager;
+
+    LessonMapper myLessons = LessonMapper.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +88,6 @@ public class Algebra_1 extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case android.R.id.home:
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -145,14 +148,12 @@ public class Algebra_1 extends AppCompatActivity {
 
     private final class OkOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            //Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
             download_All();
         }
     }
 
     public final class CancelOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            //MainActivity.this.finish(); THIS KILLS THE APP
             return;
         }
     }
@@ -226,23 +227,9 @@ public class Algebra_1 extends AppCompatActivity {
     public void to_Lessons(View v) {
         Button button = (Button) v;
         String buttonText = (String) button.getText();
-
-        if (buttonText.matches("Variables"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_Variables.class));
-        else if (buttonText.matches("PEMDAS"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_PEMDAS.class));
-        else if (buttonText.matches("Equations With Variables"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_Equation_With_Variables.class));
-        else if (buttonText.matches("Balancing Equations"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_Balancing_Equations.class));
-        else if (buttonText.matches("Equations with Zero or Infinite Solutions"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_EWZOIS.class));
-        else if (buttonText.matches("Linear Equations and Word Problems"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_LEAWP.class));
-        else if (buttonText.matches("System of Equations"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_System_Of_Equations.class));
-        else if (buttonText.matches("Inequalities"))
-            startActivity(new Intent(Algebra_1.this, Algebra_1_Inequalities.class));
+        Class lesson = myLessons.getLesson(buttonText);
+        if (lesson != null)
+            startActivity(new Intent(Algebra_1.this, lesson));
     }
 
 }
