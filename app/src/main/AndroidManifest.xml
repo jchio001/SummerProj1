@@ -18,15 +18,16 @@
         <activity
             android:name=".Activities.MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".Algebra1_Lessons.Algebra_1"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_algebra_1" >
         </activity>
         <activity

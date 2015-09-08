@@ -36,7 +36,7 @@
                 android:id="@+id/alg1_ineq1" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
                 android:id="@+id/numline1"
@@ -49,7 +49,7 @@
                 android:id="@+id/alg1_ineq2" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
                 android:id="@+id/numline2"
@@ -62,7 +62,7 @@
                 android:id="@+id/alg1_ineq3" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
                 android:id="@+id/numline3"
@@ -75,7 +75,7 @@
                 android:id="@+id/alg1_ineq4" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:scaleType="fitXY"
                 android:id="@+id/numline4"
