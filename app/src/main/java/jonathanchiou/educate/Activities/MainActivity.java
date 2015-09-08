@@ -247,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
     public void main_onClick(View v) {
         int id = v.getId();
         if (id == R.id.mainKA)
-            url = "https://www.khanacademy.org/";
+            url = "https://www.khanacademy.org/math/algebra";
         else
             url = "http://www.wolframalpha.com/";
         showDialog(OPEN_BROWSER);
