@@ -93,7 +93,6 @@ public class havingtrouble extends AppCompatActivity {
 
     private final class OkOnClickListener implements DialogInterface.OnClickListener {
         public void onClick(DialogInterface dialog, int which) {
-            Toast.makeText(getApplicationContext(), "Downloading file....", Toast.LENGTH_LONG).show();
             doDownloading();
         }
     }
